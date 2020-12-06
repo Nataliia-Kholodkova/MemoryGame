@@ -1,8 +1,7 @@
 const images = ['img/apple-green.svg', 'img/blackberry.svg', 'img/blueberry.svg', 'img/cherry.svg', 'img/grape.svg', 'img/lingonberry.svg'];
 const container = document.querySelector('.container-game');
 let cards = [];
-let starTime;
-let endTime;
+let starTime, endTime;
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -75,17 +74,8 @@ function checkWin() {
     return false;
 }
 
-function toggle(event) {
-    let card = event.target;
-    if (card.classList.contains('container')) {
-        return
-    }
-    if (!card) {
-        return;
-    }
-    while (!card.classList.contains('card')) {
-        card = card.parentElement;
-    }
+function toggle({target}) {
+    let card = target.closest('div.card');
     card.classList.toggle('toggled');
     const pair = cards.filter(item => item.classList.contains('toggled'));
     if (pair.length === 2) {
