@@ -1,5 +1,7 @@
 const images = ['img/apple-green.svg', 'img/blackberry.svg', 'img/blueberry.svg', 'img/cherry.svg', 'img/grape.svg', 'img/lingonberry.svg'];
 const container = document.querySelector('.container-game');
+let starTime;
+let endTime;
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -32,6 +34,7 @@ function loadGame() {
     }
     shuffleArray(cardItems);
     cardItems.forEach(item => container.appendChild(item));
+    starTime = new Date();
 }
 
 function reload() {

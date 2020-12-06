@@ -17,7 +17,10 @@ function toggleClass(card) {
 function checkWin() {
     const hiddens = Array.from(container.querySelectorAll('.card')).filter(card => card.classList.contains('hidden'));
     if (hiddens.length === 12) {
-        alert('Cool! You are the best =)');
+        endTime = new Date();
+        const delta = Math.round((endTime - starTime) / 1000);
+        alert(`Cool! You are the best =)
+        Your time is ${delta} sec`);
         return true;
     }
     return false;
