@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f3f3f3;
+    font-family: Arial, sans-serif;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.header {
+    width: 100%;
+    background-color: #292929;;
+    background-image: url("../img/apple-green.svg"), url("../img/cherry.svg");
+    background-size: 120px auto;
+    background-repeat: no-repeat;
+    background-position: 95% center, 5% center;
+    margin-bottom: 25px;
+}
+
+.section-game {
+    margin-bottom: 25px;
+}
+
+.title {
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    font-size: 55px;
+    padding: 45px 0;
+}
+
+.container {
+    box-sizing: border-box;
+}
+
+.container-game {
+    width: 730px;
+    height: 600px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    align-content: space-around;
+    background-color: white;
+    box-shadow: 0 1px 30px rgba(0, 0, 0, 0.7);
+}
+
+
+.card {
+    flex-shrink: 0;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.6);
+    position: relative;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    transform-style: preserve-3d;
+    transform: rotateY(180deg);
+    background-image: linear-gradient(45deg, #303335, white);
+}
+
+.toggled {
+    transform: rotateY(0deg);
+}
+
+.back {
+    background-image: linear-gradient(45deg, #303335, white);
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
+}
+
+.front {
+    background-color: white;
+    position: absolute;
+    left: 0;
+    right: 0;
+    transition: 1s ease-in;
+    backface-visibility: hidden;
+    transform: rotateY(0deg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card, .front, .back {
+    box-sizing: border-box;
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+}
+
+.card-image {
+    width: 60%;
+}
+
+.hidden {
+    opacity: 0;
+}
