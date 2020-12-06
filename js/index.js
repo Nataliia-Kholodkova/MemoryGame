@@ -27,12 +27,9 @@ function createCardItem(image) {
     return cardItem;
 }
 
-function containerUpdate() {
+function updateGame() {
     shuffleArray(cards);
-    cards.forEach(item => {
-        item.setAttribute('class', 'card');
-        container.appendChild(item)
-    });
+    cards.forEach(item => container.appendChild(item));
     starTime = new Date();
 }
 
@@ -41,12 +38,12 @@ function loadGame() {
         cards.push(createCardItem(image));
         cards.push(createCardItem(image));
     }
-    containerUpdate();
+    updateGame();
 }
 
-function reload() {
+function reloadGame() {
     container.innerHTML = '';
-    containerUpdate();
+    updateGame();
 }
 
 function checkPair(cards) {
@@ -57,7 +54,7 @@ function removeFromGame(cards) {
     cards.forEach(item => item.classList.remove('toggled'));
     cards.forEach(item => item.classList.add('hidden'));
     if (checkWin()) {
-        reload();
+        reloadGame();
     }
 }
 
@@ -66,12 +63,13 @@ function toggleClass(card) {
 }
 
 function checkWin() {
-    const hiddens = Array.from(container.querySelectorAll('.card')).filter(card => card.classList.contains('hidden'));
+    const hiddens = cards.filter(item => item.classList.contains('hidden'));
     if (hiddens.length === 12) {
         endTime = new Date();
         const delta = Math.round((endTime - starTime) / 1000);
         alert(`Cool! You are the best =)
         Your time is ${delta} sec`);
+        cards.forEach(item => item.classList.remove('hidden'));
         return true;
     }
     return false;
@@ -79,6 +77,12 @@ function checkWin() {
 
 function toggle(event) {
     let card = event.target;
+    if (card.classList.contains('container')) {
+        return
+    }
+    if (!card) {
+        return;
+    }
     while (!card.classList.contains('card')) {
         card = card.parentElement;
     }
@@ -97,5 +101,4 @@ function toggle(event) {
 }
 
 container.addEventListener('click', toggle);
-
 loadGame();
