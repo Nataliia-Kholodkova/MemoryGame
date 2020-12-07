@@ -1,7 +1,34 @@
-const images = ['img/apple-green.svg', 'img/blackberry.svg', 'img/blueberry.svg', 'img/cherry.svg', 'img/grape.svg', 'img/lingonberry.svg'];
+const images = [
+    {
+        name: 'apple-green',
+        src: 'img/apple-green.svg'
+    },
+    {
+        name: 'blackberry',
+        src: 'img/blackberry.svg'
+    },
+    {
+        name: 'blueberry',
+        src: 'img/blueberry.svg'
+    },
+    {
+        name: 'cherry',
+        src: 'img/cherry.svg'
+    },
+    {
+        name: 'grape',
+        src: 'img/grape.svg'
+    },
+    {
+        name: 'lingonberry',
+        src: 'img/lingonberry.svg'
+    }
+];
+const TIME_DELAY = 400;
 const container = document.querySelector('.container-game');
 let cards = [];
 let starTime, endTime;
+
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -10,14 +37,16 @@ function shuffleArray(array) {
     }
 }
 
-function createCardItem(image) {
+
+function createCardItem({name, src}) {
     const cardItem = document.createElement('div');
     cardItem.classList.add('card');
+    cardItem.setAttribute('data-name', name);
     const div_front = document.createElement('div');
     div_front.classList.add('front');
     const img = document.createElement('img');
     img.classList.add('card-image');
-    img.setAttribute('src', image);
+    img.setAttribute('src', src);
     div_front.appendChild(img);
     const div_back = document.createElement('div');
     div_back.classList.add('back');
@@ -26,11 +55,13 @@ function createCardItem(image) {
     return cardItem;
 }
 
+
 function updateGame() {
     shuffleArray(cards);
-    cards.forEach(item => container.appendChild(item));
+    cards.forEach(card => container.appendChild(card));
     starTime = new Date();
 }
+
 
 function loadGame() {
     for (let image of images) {
@@ -40,55 +71,57 @@ function loadGame() {
     updateGame();
 }
 
+
 function reloadGame() {
     container.innerHTML = '';
     updateGame();
 }
 
-function checkPair(cards) {
-    return cards[0].querySelector('img').getAttribute('src') === cards[1].querySelector('img').getAttribute('src')
+
+function checkCardsPair(cards) {
+    return cards[0].dataset.name === cards[1].dataset.name;
 }
 
-function removeFromGame(cards) {
-    cards.forEach(item => item.classList.remove('toggled'));
-    cards.forEach(item => item.classList.add('hidden'));
-    if (checkWin()) {
+
+function removeCardsFromGame(cards) {
+    cards.forEach(card => card.classList.remove('toggled'));
+    cards.forEach(card => card.classList.add('hidden'));
+    if (checkWinGame()) {
         reloadGame();
     }
 }
 
-function toggleClass(card) {
-    card.classList.remove('toggled');
-}
 
-function checkWin() {
-    const hiddens = cards.filter(item => item.classList.contains('hidden'));
+function checkWinGame() {
+    const hiddens = cards.filter(card => card.classList.contains('hidden'));
     if (hiddens.length === 12) {
         endTime = new Date();
         const delta = Math.round((endTime - starTime) / 1000);
         alert(`Cool! You are the best =)
         Your time is ${delta} sec`);
-        cards.forEach(item => item.classList.remove('hidden'));
+        cards.forEach(card => card.classList.remove('hidden'));
         return true;
     }
     return false;
 }
 
-function toggle({target}) {
+
+function toggleCard({target}) {
     let card = target.closest('div.card');
     card.classList.toggle('toggled');
-    const pair = cards.filter(item => item.classList.contains('toggled'));
+    const pair = cards.filter(card => card.classList.contains('toggled'));
     if (pair.length === 2) {
-        if (checkPair(pair)) {
+        if (checkCardsPair(pair)) {
             setTimeout(function () {
-                removeFromGame(pair)
-            }, 400);
+                removeCardsFromGame(pair)
+            }, TIME_DELAY);
 
         } else {
-            setTimeout(() => pair.forEach(item => toggleClass(item)), 400);
+            setTimeout(() => pair.forEach(card => card.classList.remove('toggled')), TIME_DELAY);
         }
     }
 }
 
-container.addEventListener('click', toggle);
+
+container.addEventListener('click', toggleCard);
 loadGame();
